@@ -4,8 +4,9 @@ import { CartContext } from "../context/CartContext";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './checkout-form';
+import arrow from '../assets/arrow.svg'
 
-const stripePromise = loadStripe("process.env.REACT_APP_STRIPE_PK")
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK)
 
 export default function CheckoutPage(){
     const cart = useContext(CartContext);
@@ -52,6 +53,10 @@ export default function CheckoutPage(){
 
     return(
         <div className="checkout-page">
+            <div className="return">
+                <img src={arrow} alt="arrow"></img>
+                <a href="/home">RETURN TO SHOPPING</a>
+            </div>
             <div className="vert-div">
                 <div className="shipping-parent">
                     <div className="title">
