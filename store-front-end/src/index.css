@@ -1,13 +1,238 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html, body{
+  height: auto;  
+
+}
+
+body{
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 16px; 
+  color: white;
+
+}
+
+.main{
+  display: flex; 
+  height: 100%; 
+
+}
+
+/* sidebar */
+.menu.open > main{
+  margin-left: 260px; 
+}
+
+.menu.open > .sidebar{
+  width: 260px; 
+
+}
+
+.sidebar{
+  z-index: 3; 
+  margin-top: 50px; 
+  width: 0px; 
+  flex-shrink: 0; 
+  background-color: #e5c0fc; 
+  height: 100vh; 
+  overflow: auto; 
+  position: fixed; 
+  transition: width 0.5s ease-in-out; 
+
+}
+
+.sidebar-item{
+  position: relative;
+  display: block;
+  padding: 1em; 
+  font-size: 1.1em;
+  cursor: pointer; 
+  text-decoration: none; 
+
+}
+
+.sidebar-title{
+  white-space: nowrap;
+  display: flex; 
+  justify-content: space-between;
+  font-size: 25px; 
+  vertical-align: middle; 
+  color: #7030a0;
+  font-family: Impact, fantasy; 
+  letter-spacing: 1px; 
+
+}
+
+.sidebar-title .toggle-btn{ 
+  width: 20px; 
+  cursor: pointer;
+  transition: transform .3s; 
+
+}
+
+.sidebar-item.open .sidebar-title .toggle-btn{
+  transform: rotate(-180deg)
+}
+
+.sidebar-content{ 
+  white-space: nowrap;
+  padding-top: 10px; 
+  font-family: Impact, fantasy;
+  color: #7030a0;
+  height: 0; 
+  overflow: hidden;
+
+}
+
+.sidebar-item.open > .sidebar-content{
+  height: auto; 
+  
+}
+
+.btn-container{
+  z-index: 2; 
+  display: inline-block; 
+  width: 35px; 
+  height: 35px;
+  margin-left: 5px; 
+  margin-top: 5px; 
+  perspective: 800px; 
+  vertical-align: auto;
+  transition: 0.2s ease;
+  position: fixed; 
+
+}
+
+.btn-container.open > .sidebar{
+  width: 260px; 
+}
+
+.btn-container:active > .btn-card{
+  cursor: pointer; 
+  transform: rotateY(180deg);
+
+}
+
+.btn-card{
+  width: 100%; 
+  height: 100%; 
+  position: relative; 
+  transition: transform 1500ms; 
+  transform-style: preserve-3d; 
+
+}
+
+.open-btn{
+  height: 4vh; 
+  backface-visibility: hidden;
+  width: 4vh; 
+  height: 4vh;
+  position: absolute; 
+  vertical-align: middle;
+}
+
+.close-btn{
+  height: 4vh; 
+  transform: rotateY(180deg);
+  vertical-align: middle;
+  backface-visibility: hidden;
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+}
+
+/* top nav */
+.nav{
+  position: fixed; 
+  top: 0; 
+  width: 100%; 
+  height: 6vh; 
+  background-color: #e5c0fc; 
+  display: block; 
+  z-index: 1; 
+
+}
+
+.nav .logo{
+  vertical-align: middle;
+  width: 3.2em; 
+  height: 2.7em; 
+  left: 50%; 
+  margin-left: 42%; 
+  margin-top: 0.25em; 
+
+}
+
+.nav .name{
+  vertical-align: middle;
+  margin-top: 0.15em; 
+  width: 15em; 
+  height: 2.5em; 
+  
+}
+
+.user-shop{
+  float: right; 
+  margin: 2vh; 
+  width: 2vh; 
+  height: 2vh; 
+  vertical-align: middle; 
+}
+
+/* end banner */
+.end-banner{ 
+  bottom: 0;
+  position: relative; 
+  background-color: #e5c0fc;  
+  width: 100%;
+  height: 35vh; 
+  z-index: 1; 
+}
+
+.end-banner .support{
+  float: left; 
+  margin-left: 5%; 
+  margin-top: 4vh; 
+
+}
+
+.end-banner h1{
+  color: #7030a0;
+  font-size: 2.5vh; 
+  margin-bottom: 2vh; 
+
+}
+
+.end-banner .more{
+  float: right; 
+  margin-right: 20%; 
+  margin-top: 4vh;
+}
+
+.end-banner a{
+  font-size: 2vh; 
+  margin-right: 5vh; 
+  text-decoration: none; 
+}
+
+.socials{ 
+  position: absolute; 
+  bottom: 2vh;
+  right: 0;  
+}
+
+.socials img{
+  width: 5vh; 
+}
+
+/* Shopping Cart */
+
+.delete{
+  height: 2.5vh; 
+  cursor: pointer; 
 }
