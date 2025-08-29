@@ -1,17 +1,19 @@
+require("dotenv").config()
+
 const express = require('express');
 const Stripe = require('stripe'); 
 const cors = require('cors'); 
 
 const app = express(); 
-const port = process.env.PORT; 
+const port = process.env.PORT || 4242; 
 
-const databaseUrl = process.env.STRIPE_SK;
-const stripe = new Stripe(databaseUrl);   
+const stripe = new Stripe(process.env.STRIPE_SK);   
 
 app.use(cors({
-    origin: 'https://onlinestore-website.netlify.app'
+    origin: 'http://localhost:3000'
 }));
 
+// 'https://onlinestore-website.netlify.app'
 app.use(express.json());
 
 app.post('/create-payment-intent', async (req, res) => {

@@ -4,87 +4,60 @@ import EndBanner from '../components/EndBanner.js';
 import { useNavigate } from 'react-router-dom'
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from 'react'
-
 import { UserAuth } from '../context/AuthContext.js'
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import * as React from 'react';
 import Button from '@mui/material/Button';
-
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 export default function Account(){
     const navigate = useNavigate()
     const [currUser, setCurrUser] = useState('')
-    const [name, setName] = useState('')
-    const [newEmail, setNewEmail] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [passVisib, setPassVisib] = useState(false)
+    const [password, setPassword] = useState('')
 
-    const { setDispName, updateEmail, updatePass, delUser } = UserAuth(); // AuthContext functions using Firebase
+    const [activePage, setActivePage] = useState('accountDetails')
 
-    /* checks if user is signed in */
-    const checkUser = async() => {
-        const auth = getAuth()
-        const user = auth.currentUser
-
-        console.log(user)
-
-        if(user){
-            setCurrUser(user)
-            navigate('/account') // goes to user's account page if signed in 
-        }
-        else{
-            navigate('/signin') // goes to sign in page if user is not signed in 
-        }
-    }
+    const { updateName, logOut, updEmail, updatePass, deleteUser, getUserFirstName, getUserLastName } = UserAuth(); 
 
     useEffect(()=>{
-        checkUser()
-    })
+        const initializeUser = async() => {
+            const auth = getAuth()
+            const user = auth.currentUser
 
-    const [open, setOpen] = React.useState(false);
+            if(!user){
+                navigate('/signin')
+                return
+            }
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+            setCurrUser(user)
+            setEmail(user.email)
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+            const first = await getUserFirstName(user.uid)
+            const last = await getUserLastName(user.uid)
+            setFirstName(first || '')
+            setLastName(last || '')
+        }
 
-    /* change email */
-    const handleChangeEmail = async() => {
-        await updateEmail(newEmail)
-        alert("Your email was successfully changed!")
-    }
+        initializeUser()
+    }, [])
 
-    /* sends password reset email */
-    const handleChangePass = async() => {
-        await updatePass(currUser.email)
-        alert("A password change email was send to " + currUser.email + "!")
+    const handleLogOut = async() => {
+        await logOut()
+        navigate('/home')
     }
 
     /* delete user */
     const handleDelUser = async() => {
-        handleClose()
-        await delUser(); 
+        await deleteUser(); 
         alert("Your account was successfully deleted.")
         navigate('/home')
-    }
-
-    /* set user display name */
-    const handleSetName = async() => {
-        await setDispName(name) // calls display name function for Firebase
     }
 
   return(
@@ -92,85 +65,98 @@ export default function Account(){
         <Sidebar/>
         <TopNav/>
 
-        <h1 className="page-title">Your Account</h1>
+        <div className="account-page">
 
-        <div className="account">
-            <div className="account-nav">
-                <Button size="large" variant="outlined">Purchases </Button>
-                <Button size="large" variant="outlined" >Settings</Button>
-            </div>
-
-            <div className="account-pages">
-                <div className="account-purchases">
-
+                <div className="account-title">
+                    <h1>Welcome Back, {firstName}!</h1>
                 </div>
-                <div className="account-settings">
-                    {currUser.displayName === null ? (
-                        <div>
-                            <Box
-                                component="form"
-                                sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-                                noValidate
-                                autoComplete="off"
-                            >
-                                <TextField 
-                                    id="standard-basic" label="Enter your Name" variant="standard" 
-                                    value={name} 
-                                    onChange={(e)=>setName(e.target.value)}
-                                />
-                            </Box>
 
-                            <Button variant="contained" color="secondary" onClick={handleSetName}>Set Name</Button>
-                        </div>
-                    ) : (
-                        <h2> Welcome back {currUser.displayName}</h2>
-                    )}
-
-                    <p>Email: {currUser.email}</p>
-
-                    <form onSubmit={handleChangeEmail}>
-                        <TextField 
-                            id="standard-basic" 
-                            label="New Email" 
-                            variant="standard" 
-                            type="email"
-                            value={newEmail}
-                            onChange={(e)=>setNewEmail(e.target.value)} />
-
-                        <Button variant="outlined" color="error" type="submit">
-                            Change Email
-                        </Button>
-                    </form>
-
-                    <Button variant="outlined" color="error" onClick={handleChangePass}>
-                        Change Password
+            <div className="account-parent">
+                <div className="account-menu">
+                    <Button className="account-button"onClick={() => setActivePage('accountDetails')}>
+                        <ManageAccountsIcon/>
+                        <p>Account Details</p>
                     </Button>
+                    <Button className="account-button" onClick={() => setActivePage('orders')}>
+                        <LocalShippingIcon/>
+                        <p>My Orders</p>
+                    </Button>
+                    <Button className="account-button" onClick={() => navigate('/shoppingcart')}>
+                        <ShoppingCartIcon/>
+                        <p>Cart</p>
+                    </Button>
+                    
+                    <hr className="line"></hr>
 
-                    <React.Fragment>
-                        <Button variant="outlined" color="error" onClick={handleClickOpen}>
-                            Delete Account
-                        </Button>
-                        <Dialog
-                            open={open}
-                            TransitionComponent={Transition}
-                            keepMounted
-                            onClose={handleClose}
-                            aria-describedby="alert-dialog-slide-description"
-                        >
-                            <DialogTitle>{"Do you want to Delete your Account?"}</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText id="alert-dialog-slide-description">
-                                Are you sure you want to delete your account? All information on your past purchases will be deleted.
-                            </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                            <Button onClick={handleClose}>No</Button>
-                            <Button onClick={handleDelUser}>Yes</Button>
-                            </DialogActions>
-                        </Dialog>
-                    </React.Fragment>
+                    <Button className="account-button" onClick={() => handleLogOut()}>
+                        <LogoutIcon/>
+                        <p>Log Out</p>
+                    </Button>
                 </div>
+
+                {activePage === 'accountDetails' && (
+                    <div className="account-sub-page">
+                        <div className="account-details">
+                            <div className="account-input">
+                                <TextField
+                                    className="account-input"
+                                    label="First Name"
+                                    variant="outlined"
+                                    value={firstName}
+                                    onChange={e => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div className="account-input">
+                                <TextField
+                                    className="account-input"
+                                    label="Last Name"
+                                    variant="outlined"
+                                    value={lastName}
+                                    onChange={e => setLastName(e.target.value)}
+                                />
+                            </div>
+                            <div className="account-input">
+                                <TextField
+                                    className="account-input"
+                                    label="Email"
+                                    variant="outlined"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                    disabled
+                                />
+                            </div>
+                        </div>
+
+                        <div className="account-input">
+                            <Button className="account-button" onClick={() => updateName(firstName, lastName)}>
+                                <p>Save Changes</p>
+                            </Button>
+                        </div>
+
+                        <div className="account-input" onClick={() => updatePass(currUser.email)}>
+                            <Button className="password-button">
+                                <p>Send Password Reset Email</p>
+                            </Button>
+                        </div> 
+
+                        <div className="button-input">
+                            <Button className="delete-button" onClick={() => handleDelUser()}>
+                                <p>Delete Account</p>
+                            </Button>
+                        </div>  
+                    </div>
+                )}
+
+                {activePage === 'orders' && (
+                    <div className="account-sub-page">
+                        <div className="order-card">
+                            <p>hello cat</p>
+                        </div>
+                    </div>
+                )}
+
             </div>
+
         </div>
 
         <EndBanner/> 

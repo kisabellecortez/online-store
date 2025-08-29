@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CartContext } from "../context/CartContext.js";
 
 const cardElementOptions = {
   style: {
@@ -23,6 +24,7 @@ export default function CheckoutForm({ amount }) {
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
+  const cart = useContext(CartContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +34,8 @@ export default function CheckoutForm({ amount }) {
       setProcessing(false);
       return;
     }
-
-    const response = await fetch('https://online-store-backend-4gcu.onrender.com/create-payment-intent', {
+//https://online-store-backend-4gcu.onrender.com/create-payment-intent
+    const response = await fetch('http://localhost:4242/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount }),
@@ -73,7 +75,9 @@ export default function CheckoutForm({ amount }) {
       setSuccess(true);
       setError(null);
       setProcessing(false);
-      // Optionally redirect or clear cart here
+      
+
+      cart.clearCart()
     }
   };
 
