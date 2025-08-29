@@ -1,38 +1,549 @@
-.App {
+body{
+  width:100%; 
+  height: auto; 
+}
+
+/* Home */
+.page{
+  width: 100%; 
+  height: auto; 
+}
+
+.header{
+  width: 100%; 
+  height: 100vh;
+  padding-top: 6vh; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.header img{
+  width: 100%; 
+}
+
+.collage-parent{
+  display: flex; 
+  align-items: center; 
+  justify-content: space-around; 
+  margin: 5vh 0 5vh 0; 
+}
+
+.collage-parent a {
+  flex: 1 1 50%;
+  box-sizing: border-box; 
+}
+
+.collage-child{
+  display: flex; 
+  flex-direction: row; 
+  flex-wrap: wrap;  
+  width: 90%; 
+}
+
+.collage-child img{
+  width: 100%;
+  height: 50vh;
+  object-fit: cover; 
+  display: block;
+}
+
+.home .pcard-section .prod p{
+  color: black; 
+}
+
+.home .new-arrivals{
+  background-color:grey; 
+}
+
+.home .bestsellers{
+  background-color:red; 
+  margin-bottom:10vh; 
+}
+
+.home .about{
+  text-decoration: none; 
+}
+
+.home .about h1, p{
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.home .about h1{
+  margin-bottom: 3vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* product cards */
+.pcard-section {
+  width: 100%; 
+  padding: 10vh 2.5vh;
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  align-items: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.alert {
+  position: fixed; 
+  bottom: 2.5vh; 
+  left: 2.5vh; 
+  z-index: 2; 
+}
+
+.pcard-section h1, 
+.pcard h4, 
+.pcard .price,
+.pcard .quantity {
+  color: #7030a0; 
+}
+
+.card-section h1 {
+  text-align: center;
+  font-size: 5vh;
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  background-color: #ffffff;
+  width: 50vh;
+  height: 70vh;
+  margin: 2.5vh 5vh;
+  color: #7030a0;
+  padding: 2.5vh;
+  box-sizing: border-box;
+}
+
+.pcard .product-name, .pcard .price{
+  text-align: left; 
+}
+
+.pcard .name{
+  margin-top: 2vh; 
+}
+
+.pcard .price{
+  margin-bottom: 3vh; 
+}
+
+.pcard img {
+  width: 45vh;
+  height: 45vh;
+}
+
+.pcard .button {
+  width: 100%;
+}
+
+.pcard .button .MuiButtonGroup-root {
+  width: 100%; 
+}
+
+.pcard .button .MuiButton-root {
+  width: 100%; 
+}
+
+.pcard .cart-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5vh;
+}
+
+.pcard .cart-icons .icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 1vh;
+  cursor: pointer;
+}
+
+.pcard:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* contact-us page */
+.contact-us .form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  text-align: center;
+}
+
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.contact-us .header, .custom-orders .header{
+  text-align:center;
+  font-size:7vh;
+  color:#7030a0;
+  margin-top: 12vh; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.contact-us button{
+  margin: 0 0 10vh 8%;
+  text-align: center;
+  padding: 15px 32px;
+  display: inline-block;
+}
+
+/* SignIn and SignOut */
+.sign-in{
+  background-color: #f7d4d4; 
+  width: 100%; 
+  height: 100vh; 
+  padding: 2vh; 
+}
+
+.sign-in-card h1, .sign-in p, .sign-in label{
+  color: #d6a6b2; 
+  text-align: center;
+}
+
+.sign-in-card h1{
+  margin-bottom: 2vh; 
+  font-size: 5vh; 
+}
+
+.sign-in-card p{
+  margin-top: 8vh; 
+}
+
+.sign-in-card a{
+  color: #d6a6b2; 
+  text-decoration: underline; 
+}
+
+.sign-in .sign-in-card{
+  width: 60vh; 
+  height: 80vh; 
+  border-radius: 20px; 
+  margin: auto; 
+  padding-top: 2vh;
+}
+
+.sign-in .home-portal{
+  color: #d6a6b2;
+  text-decoration: none; 
+}
+
+.sign-in .sign-in-card .form button{
+  margin-left: 12%; 
+}
+
+/* Admin */
+.admin{
+  height: auto;  
+  width: 100%; 
+  display: flex; 
+  flex-direction: row; 
+}
+
+.admin h1{
+  text-align: center; 
+  color: #d6a6b2;
+}
+
+.admin .admin-form{
+  padding-top: 5vh; 
+  margin-top: 10vh;
+  margin-left: auto; 
+  margin-right: auto;  
+  margin-bottom: 20vh; 
+  height: 80vh; 
+  width: 60vh; 
+  background-color: #d6a6b2; 
+  border-radius: 20px; 
+  float: left; 
+}
+
+.admin .admin-form .input, button{
+  margin-left: 5vh; 
+  margin-top: 5vh; 
+}
+
+/* shopping cart page */
+.table{
+  width: 80%;
+  margin: auto; 
+  padding-top: 10vh; 
+  margin-bottom: 10vh; 
+}
+
+.table img{
+  width: 10vh;
+  margin-right: 2vh;  
+}
+
+.table-product{
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+}
+
+.page hr{
+  width: 90%; 
+  margin: auto; 
+}
+
+.text-parent{
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start;  
+  row-gap: 2vh; 
+  width: 30%; 
+  margin: 5vh 0 5vh 20vh; 
+}
+
+.text-child{
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between; 
+  width: 100%; 
+}
+
+.text-child p{
+  color: black; 
+}
+
+.bold{
+  font-weight: bold; 
+  font-size: 20px; 
+}
+
+.page button{
+  margin: 5vh 0 5vh 20vh;
+}
+
+button{
+  all: unset; 
+  cursor: pointer; 
+  background-color: #d6a6b2;
+  height: 5vh; 
+  padding: 2vh; 
+  border-radius: 5px;  
+}
+
+/* Custom-Orders */
+
+.custom-forms{
+  position: relative; 
+  height: auto; 
+  min-height: 100vh; 
+}
+
+.custom-form{
+  background-color: red; 
+  position: absolute;  
+  height: 100vh; 
+  width: 100%; 
+  margin: auto; 
+  z-index: 1;
+}
+
+/* Account page */
+.page-title, h2, p{ 
+  color: #7030a0; 
+}
+
+.page-title, h2{
+  text-align: center; 
+}
+
+.page-title{
+  padding: 10vh 0 5vh 0;
+}
+
+p{
+  text-align: left; 
+}
+
+.account{
+  display: flex; 
+  height: 200vh; 
+}
+
+.account-nav{
+  width: 20%; 
+}
+
+.account-pages{
+  width: 80%; 
+  position: relative; 
+}
+
+.account-purchases, .account-settings{
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+}
+
+/* Checkout */
+.checkout-page{
+  background-color: #f7d4d4;
+  padding: 5vh; 
+  display: flex; 
+  flex-direction: row; 
+  flex-wrap: wrap; 
+}
+
+.checkout-page p, .checkout-page h3{
+  color: black; 
+}
+
+.checkout-page li{
+  list-style-type: none;
+}
+
+.checkout-page img{
+  height: 10vh;   
+  width: 10vh; 
+}
+
+.side-div{
+  width: 40%; 
+  height: auto; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 2vh; 
+}
+
+.summary-parent, .cart-parent{
+  width: 90%;  
+  margin-left: 10%;   
+}
+
+.shipping-parent, .billing-parent, .summary-parent, .cart-parent{
+  background-color: white; 
+  border: 0.5px solid #d6a6b2; 
+}
+
+.title{
+  width: 100%; 
+  height: 8vh; 
+  background-color: #d6a6b2;
+  display: flex; 
+  align-items: center; 
+  padding-left: 2vh; 
+}
+
+.return{
+  width: 100%; 
+  height: 8vh; 
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 2vh; 
+}
+
+.return img{
+  width: 5vh; 
+  margin-right: 2vh; 
+}
+
+.return a{
+  text-decoration: none; 
+  color: #d6a6b2; 
+}
+
+.vert-div{
+  display: flex; 
+  flex-direction: column; 
+  width: 60%; 
+  row-gap: 2vh;  
+}
+
+.form{
+  width: 100%; 
+  padding: 5vh; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem; 
+}
+
+.form-row label {
+  width: 150px; 
+  margin-right: 1rem;
+  text-align: left;
+  color: black; 
+}
+
+.form-row input,
+.form-row select {
+  flex: 1; 
+  padding: 0.5rem;
+}
+
+.text-row{
+  padding: 1vh; 
+}
+
+.summary-child{
+  padding: 3vh; 
+}
+
+.text-row {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;   
+  width: 100%;            
+}
+
+.item-parent{
+  display: flex; 
+  flex-direction: row; 
+  align-items: center;
+  padding: 5vh; 
+  column-gap: 2vh; 
+}
+
+.item-image{
+  width: 40%; 
+}
+
+.item-image img{
+  width: 100%; 
+  height: 100%; 
+}
+
+.item-name{
+  padding-bottom: 3vh; 
+  font-weight: bold; 
+}
+
+.item-price{
+  padding-top: 3vh; 
+  font-weight: bold; 
+}
+
+.payment-parent{
+  display: flex; 
+  flex-direction: column; 
+  row-gap: 5vh;  
+  margin-top: '20px';
+  width: '100%';
+  padding: 5vh; 
+}
+
+.payment-child{
+  border: 0.5px solid #d6a6b2; 
+  padding: 2vh; 
+  border-radius: 4px; 
+  width: 100vh; 
+  margin-bottom: 5vh;  
+}
+
+.button-parent{ 
+  display: flex; 
+  justify-content: flex-start;  
 }

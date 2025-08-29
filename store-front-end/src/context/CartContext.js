@@ -39,7 +39,7 @@ export const CartContext = createContext({
     getTotalCost: () => {}
 })
 
-export function CartProvider({children}){
+export function CartContextProvider({children}){
     const [cartProducts, setCartProducts] = useState(JSON.parse(localStorage.getItem('cart'))) // initialize cart products with local storage value 
 
     /* save array of cart products in local storage each time they are modified */
@@ -123,4 +123,4 @@ export function CartProvider({children}){
     )
 }
 
-export default CartProvider;
+export default CartContextProvider;
