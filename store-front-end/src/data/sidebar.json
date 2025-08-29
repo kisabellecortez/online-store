@@ -1,14 +1,48 @@
 [
-    {
+    {   
         "title": "HOME", 
         "path": "/home"
+
     },
     {
         "title": "SHOP", 
-        "path": "/shop"
+        "path": "/shop",
+        "childrens": [
+            {
+                "title": "ALL PRODUCTS",
+                "path": "/shop/all"
+            },
+            {
+                "title": "RINGS", 
+                "path": "/shop/rings"
+            },
+            {
+                "title": "CRYSTALS", 
+                "path": "/shop/crystals"
+            }
+        ]
     },
     {
-        "title": "LOGOUT", 
+        "title": "FAQ", 
+        "path": "/"
+
+    },
+    {
+        "title": "BLOG", 
+        "path": "/"
+
+    },
+    {
+        "title": "CONTACT US", 
+        "path": "/contact-us"
+
+    }, 
+    {
+        "title": "ADD/EDIT PRODUCTS", 
+        "path": "/admin"
+    },
+    {
+        "title": "LOGOUT",
         "path": "/home"
     }
 ]

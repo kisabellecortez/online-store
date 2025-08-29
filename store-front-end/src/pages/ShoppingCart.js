@@ -4,7 +4,7 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../context/CartContext.js";
 
 import Trash from '../assets/trash.svg'
 
@@ -18,7 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-export default function Cart(){
+export default function ShoppingCart(){
     const cart = useContext(CartContext)
     const [imageUrls, setImageUrls] = useState({});
     const navigate = useNavigate(); 

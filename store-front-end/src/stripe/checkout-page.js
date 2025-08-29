@@ -5,7 +5,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './checkout-form';
 
-const stripePromise = loadStripe("process.env.STRIPE_PK")
+const stripePromise = loadStripe("process.env.REACT_APP_STRIPE_PK")
 
 export default function CheckoutPage(){
     const cart = useContext(CartContext);
