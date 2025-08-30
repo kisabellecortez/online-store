@@ -1,6 +1,11 @@
+import React, { useState, useEffect, useContext }  from 'react';
+
 /* Firebase */
 import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
+
+/* Cloudinary */ 
+import { Cloudinary } from "@cloudinary/url-gen";
 
 class Product{
     constructor(id, name, description, price, type){ 
@@ -13,6 +18,7 @@ class Product{
 }
 
 const productsArray = []; 
+const imagesArray = []; 
 
 // get product data from database 
 const querySnapshot = await getDocs(collection(db, 'products'));
@@ -23,6 +29,17 @@ productsData.forEach((product) => {
     productsArray.push(new Product(product.id, product.name, product.description, product.price, product.properties[0]));
 });
 
+const cld = new Cloudinary({
+    cloud: {
+        cloudName: "dhfavo9sd",
+    },
+})
+
+for(let i = 0; i < productsArray.length; i++){
+    imagesArray[i] = cld.image(productsArray[i].id).toURL(); 
+}
+
+console.log(imagesArray);
 
 function getProductData(id) {
     let productData = productsArray.find(product => product.id === id);
@@ -35,4 +52,4 @@ function getProductData(id) {
     return productData;
 }
 
-export { productsArray, getProductData }; 
+export { productsArray, imagesArray, getProductData }; 

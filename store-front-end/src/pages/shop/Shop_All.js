@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import React, { useState, useContext } from 'react';
 import Sidebar from '../../components/Sidebar.js';
 import TopNav from '../../components/TopNav.js';
 import EndBanner from '../../components/EndBanner.js';
-import { productsArray } from '../../data/productData.js';
+import { productsArray, imagesArray } from '../../data/productData.js';
 import { CartContext } from "../../context/CartContext";
 
 /* Material UI */
@@ -22,7 +21,6 @@ import Select from '@mui/material/Select';
 
 export default function Shop_All() {
     const cart = useContext(CartContext); 
-    const [imagesArray, setImagesArray] = useState([]);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [openForm, setOpenForm] = useState(false);
@@ -102,20 +100,6 @@ export default function Shop_All() {
         handleClick("Added to Cart!")
     }
 
-    useEffect(() => {
-        const fetchImages = async () => {
-            const storage = getStorage();
-            const urls = await Promise.all(
-                productsArray.map(async (product) => {
-                    const url = await getDownloadURL(ref(storage, "products/" + product.id + ".jpg"));
-                    return url;
-                })
-            );
-            setImagesArray(urls);
-        };
-        fetchImages();
-    }, []);
-
     return (
         <div>
             <Sidebar />
@@ -135,7 +119,7 @@ export default function Shop_All() {
                         <div>
                             <div className="button">
                                 <Button
-                                    variant="contained"
+                                    variant="contained" 
                                     color="secondary"
                                     size="large"
                                     onClick={() => handleOpenForm(product.id, product.properties)} // Pass the product id here

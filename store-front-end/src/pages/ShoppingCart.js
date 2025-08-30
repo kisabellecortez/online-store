@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
 import { CartContext } from "../context/CartContext.js";
+import { imagesArray } from '../data/productData.js';
 
 import Trash from '../assets/trash.svg'
 
@@ -18,41 +18,29 @@ import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+import { Cloudinary } from "@cloudinary/url-gen";
+
 export default function ShoppingCart(){
     const cart = useContext(CartContext)
-    const [imageUrls, setImageUrls] = useState({});
     const navigate = useNavigate(); 
+    const [cartImagesArray, setCartImagesArray] = useState([]);
+
+    const cld = new Cloudinary({
+        cloud: {
+            cloudName: "dhfavo9sd",
+        },
+    })
 
     useEffect(() => {
         console.log("Current cart items:", cart.items);
+
+        const newCartImagesArray = cart.items.map(item => {
+            return cld.image(item.id).toURL();
+        })
+
+        setCartImagesArray(newCartImagesArray);
+        console.log(cartImagesArray);
     }, [cart.items]);
-
-    useEffect(() => {
-        const storage = getStorage(); 
-
-        const fetchImageUrls = async() => {
-            const urls = {}; 
-            for(const item of cart.items){
-                try{
-                    const imageRef = ref(storage, `products/${item.id}.jpg`); 
-                    const url = await getDownloadURL(imageRef); 
-                    urls[item.id] = url; 
-                }
-                catch(error){
-                    console.error("Error: ", error);
-                    urls[item.id] = ""; 
-                }
-
-                setImageUrls(urls); 
-            }
-
-            setImageUrls(urls);
-        }
-
-        if(cart.items.length > 0){
-            fetchImageUrls(); 
-        }
-    }, [cart.items]); 
 
     /* add product to cart */
     const handleAddOneCart = async(id, size)=>{
@@ -91,14 +79,14 @@ export default function ShoppingCart(){
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                        {cart.items.map((item) => (
+                        {cart.items.map((item, index) => (
                             <TableRow
                             key={item.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                             <TableCell component="th" scope="row">
                                 <div className="table-product">
-                                    <img src={imageUrls[item.id]} alt={item.name}></img>
+                                    <img src={cartImagesArray[index]} alt={item.name}></img>
                                     {item.name}
                                 </div>
                             </TableCell>
