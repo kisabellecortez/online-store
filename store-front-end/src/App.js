@@ -11,6 +11,7 @@ import ShopCrystals from './pages/shop/Shop_Crystals'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import ShoppingCart from './pages/ShoppingCart'
+import Account from './pages/Account.js'
 import Faq from './pages/FAQ.js'
 import ContactUs from './pages/ContactUs.js'
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/shop/rings" element={<ShopRings/>}/>
             <Route path="/faq" element={<Faq/>}/>
             <Route path="/contact-us" element={<ContactUs/>}/>
+            <Route path="/account" element={<Account/>}/>
             <Route path="/signin" element={<SignIn/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/shoppingcart" element={<ShoppingCart/>}/>
