@@ -33,25 +33,6 @@ export const AuthContextProvider = ({ children })=> {
                 await setDoc(doc(db, 'users', uid), {
                     
                 });
-
-                // get product data from database 
-                const querySnapshot = await getDocs(collection(db, "products"));
-                const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                // reference the user's cart collection in Firestore
-                const cartCollectionRef = collection(db, "users", uid, "cart");
-
-                // add each product to cart 
-                productsData.forEach((product) => {
-                    const cartProductRef = doc(cartCollectionRef, product.id); 
-
-                    setDoc(cartProductRef, {
-                        name: product.name, 
-                        description: product.description, 
-                        price: product.price, 
-                        quantity: 0
-                    })
-                })
             }
         })
     }

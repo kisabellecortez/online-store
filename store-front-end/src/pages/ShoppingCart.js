@@ -4,7 +4,6 @@ import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
 import { CartContext } from "../context/CartContext.js";
-import { imagesArray } from '../data/productData.js';
 
 import Trash from '../assets/trash.svg'
 
@@ -44,6 +43,7 @@ export default function ShoppingCart(){
 
     /* add product to cart */
     const handleAddOneCart = async(id, size)=>{
+        console.log("add " + id)
         cart.addOneToCart(id, size); 
         console.log(cart)
     }
@@ -56,7 +56,7 @@ export default function ShoppingCart(){
 
     const handleRemoveCart = async(id, size) => {
         // remove entire product from cart
-        cart.deleteFromCart(id, size)
+        cart.removeFromCart(id, size)
         console.log(cart)
     }
 
