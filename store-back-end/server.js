@@ -3,12 +3,15 @@ const Stripe = require('stripe');
 const cors = require('cors'); 
 
 const app = express(); 
-const port = 4242; 
+const port = process.env.PORT; 
 
 const databaseUrl = process.env.STRIPE_SK;
 const stripe = new Stripe(databaseUrl);   
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://onlinestore-website.netlify.app'
+}));
+
 app.use(express.json());
 
 app.post('/create-payment-intent', async (req, res) => {
