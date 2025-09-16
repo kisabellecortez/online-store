@@ -33,7 +33,7 @@ export default function CheckoutForm({ amount }) {
       return;
     }
 
-    const response = await fetch('http://localhost:4242/create-payment-intent', {
+    const response = await fetch('https://online-store-backend-4gcu.onrender.com/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount }),
