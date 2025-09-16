@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 import { productsArray } from '../data/productData.js'
 import { UserAuth } from '../context/AuthContext.js'
 import { db } from '../firebase.js';
-import { doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, increment, query, where } from 'firebase/firestore'
+import { doc, getDocs, setDoc, updateDoc, deleteDoc, collection, increment } from 'firebase/firestore'
 
 class CartProduct{
     constructor(id, size){

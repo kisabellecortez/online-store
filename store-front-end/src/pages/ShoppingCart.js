@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
@@ -24,11 +24,11 @@ export default function ShoppingCart(){
     const navigate = useNavigate(); 
     const [cartImagesArray, setCartImagesArray] = useState([]);
 
-    const cld = new Cloudinary({
-        cloud: {
-            cloudName: "dhfavo9sd",
-        },
-    })
+    const cld = useMemo(() => {
+        return new Cloudinary({
+            cloud: { cloudName: "dhfavo9sd" }, 
+        })
+    }, [])
 
     useEffect(() => {
         console.log("Current cart items:", cart.items);
@@ -38,8 +38,8 @@ export default function ShoppingCart(){
         })
 
         setCartImagesArray(newCartImagesArray);
-        console.log(cartImagesArray);
-    }, [cart.items]);
+        console.log(newCartImagesArray);
+    }, [cart.items, cld]);
 
     /* add product to cart */
     const handleAddOneCart = async(id, size)=>{
