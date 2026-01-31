@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { CartContext } from "../context/CartContext";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './checkout-form';
-import arrow from '../assets/arrow.svg'
+import arrow from '../assets/arrow.svg';
+import { Cloudinary } from "@cloudinary/url-gen";
+import { useMemo } from "react";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK)
 
@@ -12,35 +13,28 @@ export default function CheckoutPage(){
     const cart = useContext(CartContext);
     const [imageUrls, setImageUrls] = useState({});
     const [delivery, setDelivery] = useState('Standard')
+    const [cartImagesArray, setCartImagesArray] = useState([]);
 
     useEffect(() => {
         console.log("Current cart items:", cart.items);
     }, [cart.items]);
     
+    const cld = useMemo(() => {
+        return new Cloudinary({
+            cloud: { cloudName: "dhfavo9sd" }, 
+        })
+    }, [])
+
     useEffect(() => {
-        const storage = getStorage(); 
+        console.log("Current cart items:", cart.items);
 
-        const fetchImageUrls = async() => {
-            const urls = {}; 
-            for(const item of cart.items){
-                try{
-                    const imageRef = ref(storage, `products/${item.id}.jpg`); 
-                    const url = await getDownloadURL(imageRef); 
-                    urls[item.id] = url; 
-                }
-                catch(error){
-                    console.error("Error: ", error);
-                    urls[item.id] = ""; 
-                }
-            }
+        const newCartImagesArray = cart.items.map(item => {
+            return cld.image(item.id).toURL();
+        })
 
-            setImageUrls(urls);
-        }
-
-        if(cart.items.length > 0){
-            fetchImageUrls(); 
-        }
-    }, [cart.items]);
+        setCartImagesArray(newCartImagesArray);
+        console.log(newCartImagesArray);
+    }, [cart.items, cld]);
 
     const handleChange = (e) => {
         setDelivery(e.target.value);
@@ -139,12 +133,14 @@ export default function CheckoutPage(){
                     <div className="title">
                         <h1>YOUR CART</h1>
                     </div>
+
                     
-                    {cart.items.map((item) => (
+                    
+                    {cart.items.map((item, index) => (
                         <div key={item.id} className="item-parent">
                             <div className="item-image">
                                 <img
-                                src={imageUrls[item.id]}
+                                src={cartImagesArray[index]}
                                 alt={item.name}
                                 style={{ width: '150px', height: 'auto' }}
                                 />

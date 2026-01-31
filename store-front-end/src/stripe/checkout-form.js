@@ -54,7 +54,7 @@ export default function CheckoutForm({ amount }) {
     type: 'card',
     card: cardNumberElement,
     billing_details: {
-        // add billing details here if available
+      // add billing details here if available
     },
     });
 
