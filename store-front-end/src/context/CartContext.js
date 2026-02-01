@@ -154,15 +154,17 @@ export function CartContextProvider({ children }) {
         }
     }
 
-    async function clearCart() {
-        setCartProducts([]);
+    async function clearCart(){
+        setCartProducts([])
 
-        if (user?.uid) {
-            const cartRef = collection(db, "users", user.uid, "cart");
-            const cartSnapshot = await getDocs(cartRef);
-            for (const docSnap of cartSnapshot.docs) {
-                await deleteDoc(doc(db, "users", user.uid, "cart", docSnap.id));
-            }
+        localStorage.setItem('cart', JSON.stringify([]))
+
+        if(user?.uid){
+            const cartRef = collection(db, "users", user.uid, "cart")
+            const cartSnapshot = await getDocs(cartRef)
+
+            const deletePromises = cartSnapshot.docs.map(docSnap => deleteDoc(doc(db, "users", user.uid, "cart", docSnap.id)))
+            await Promise.all(deletePromises)
         }
     }
 
