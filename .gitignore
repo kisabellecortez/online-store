@@ -1,1 +1,3 @@
 store-back-end/.env 
+node_modules/ 
+.env 
