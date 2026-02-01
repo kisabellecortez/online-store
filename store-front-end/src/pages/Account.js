@@ -13,19 +13,9 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-export default function Account() {
-    const navigate = useNavigate();
-    const [currUser, setCurrUser] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [activePage, setActivePage] = useState('accountDetails');
-
 export default function Account(){
     const navigate = useNavigate()
     const [currUser, setCurrUser] = useState('')
-    const [name, setName] = useState('')
-
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -34,51 +24,33 @@ export default function Account(){
 
     const [activePage, setActivePage] = useState('accountDetails')
 
-    const { setDispName, updateEmail, updatePass, deleteUser, getUserFirstName, getUserLastName } = UserAuth(); // AuthContext functions using Firebase
-
-            if (!user) {
-                navigate('/signin');
-                return;
-            }
-
-            setCurrUser(user);
-            setEmail(user.email);
-
-        if(user){
-            setCurrUser(user)
-            setEmail(user.email)
-            setPassword(user.password)
-        }
-        else{
-            navigate('/signin')
-        }
-    }
+    const { updateName, logOut, updEmail, updatePass, deleteUser, getUserFirstName, getUserLastName } = UserAuth(); 
 
     useEffect(()=>{
-        checkUser()
+        const initializeUser = async() => {
+            const auth = getAuth()
+            const user = auth.currentUser
 
-        const fetchFirstName = async() => {
-            if(currUser?.uid){
-                const firstName = await getUserFirstName(currUser.uid)
-                setFirstName(firstName)
+            if(!user){
+                navigate('/signin')
+                return
             }
+
+            setCurrUser(user)
+            setEmail(user.email)
+
+            const first = await getUserFirstName(user.uid)
+            const last = await getUserLastName(user.uid)
+            setFirstName(first || '')
+            setLastName(last || '')
         }
 
-        const fetchLastName = async() => {
-            if(currUser?.uid){
-                const lastName = await getUserLastName(currUser.uid)
-                setLastName(lastName)
-            }
-        }
+        initializeUser()
+    }, [])
 
-        fetchFirstName()
-        fetchLastName()
-    }, [currUser])
-
-    /* sends password reset email */
-    const handleChangePass = async() => {
-        await updatePass(currUser.email)
-        alert("A password change email was send to " + currUser.email + "!")
+    const handleLogOut = async() => {
+        await logOut()
+        navigate('/home')
     }
 
     /* delete user */
@@ -86,10 +58,6 @@ export default function Account(){
         await deleteUser(); 
         alert("Your account was successfully deleted.")
         navigate('/home')
-    }
-
-    const handleChanges = async() => {
-        await updateEmail(email)
     }
 
   return(
@@ -212,18 +180,19 @@ export default function Account(){
                                     variant="outlined"
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
+                                    disabled
                                 />
                             </div>
                         </div>
 
                         <div className="account-input">
-                            <Button className="account-button" onClick={() => handleChanges()}>
+                            <Button className="account-button" onClick={() => updateName(firstName, lastName)}>
                                 <p>Save Changes</p>
                             </Button>
                         </div>
 
-                        <div className="account-input">
-                            <Button className="password-button" onClick={() => handleDelUser()}>
+                        <div className="account-input" onClick={() => updatePass(currUser.email)}>
+                            <Button className="password-button">
                                 <p>Send Password Reset Email</p>
                             </Button>
                         </div> 

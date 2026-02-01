@@ -1,9 +1,8 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
-import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
+import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth, updateProfile, sendPasswordResetEmail, updateEmail } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
 import { doc, setDoc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
-
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children })=> {
@@ -38,27 +37,30 @@ export const AuthContextProvider = ({ children })=> {
     }
 
     /* Log Out */
-    const logOut =()=>{
-        return signOut(auth)
+    const logOut = async() => {
+        await signOut(auth)
+        setUser(null)
     }
 
     /* user management */
     
-    /* set display name */
-    const setDispName = async(dispName) => {
-        await updateProfile(user, {
-            displayName: dispName
-        })
-    }
-
     /* update email */
-    const updateEmail = async(email) => {
+    const updEmail = async(email) => {
         await updateEmail(user, email)
     }
 
     /* update password */
     const updatePass = async(email) => {
         await sendPasswordResetEmail(auth, email)
+        alert("A password change email was send to " + email + "!")
+    }
+
+    const updateName = async(firstName, lastName) => {
+        const userRef = doc(db, "users", user.uid)
+        await setDoc(userRef, {
+            first_name: firstName, 
+            last_name: lastName
+        })
     }
 
     /* delete user's account */
@@ -172,7 +174,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ getUserFirstName, getUserLastName, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, setDispName, delUser, createUser, user, updatePass, updateEmail }}>
+        <AuthContext.Provider value = {{ updateName, getUserFirstName, getUserLastName, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user, updatePass, updEmail }}>
             { children }
         </AuthContext.Provider>
     );
