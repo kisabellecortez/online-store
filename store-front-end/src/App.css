@@ -609,7 +609,7 @@ h1, h2{
   align-items: center; 
 }
 
-.account-menu .account-button{
+.account-menu .account-button, .account-button, .button-input .delete-button, .password-button{
   background-color: white; 
   margin: 2vh;
   width: 100%;
@@ -619,7 +619,7 @@ h1, h2{
   padding: 2vh; 
 }
 
-.account-menu .account-button p{
+.account-menu .account-button p, .account-button p, .button-input .delete-button p, .password-button p{
   color: black; 
   margin-left: 1vh; 
 }
@@ -628,19 +628,73 @@ h1, h2{
   background-color: #d6a6b26b; 
 }
 
-.account-menu hr{
+.account-input .account-button, .account-input .password-button{
+  background-color: #d6a6b26b;
+}
+
+.account-input .account-button:hover, .password-button:hover{
+  background-color: #d6a6b2;
+}
+
+.button-input .delete-button{
+  background-color: rgba(255, 0, 0, 0.683); 
+}
+
+.button-input .delete-button:hover{
+  background-color: red; 
+}
+
+.line{
   width: 100%; 
-  color: grey; 
 }
 
 .account-title{
   width: 100%; 
-  height: 15vh; 
+  height: 10vh; 
 }
 
 .account-page{
   width: 100%; 
-  height: 100vh; 
-  padding: 10vh; 
+  height: 95vh; 
+  padding: 5vh 10vh 0 10vh ; 
+  margin-top: 5vh;
+}
+
+.account-parent{
+  display: flex; 
+  flex-direction: row; 
+  height: 80%; 
+}
+
+.account-sub-page{
+  width: 80%; 
+  padding: 2vh 5vh 2vh 5vh; 
+}
+
+.order-card{
+  border: 1px solid rgba(174, 171, 171, 0.532);
+  height: 100%; 
+  width: 100%; 
+  border-radius: 30px;
+}
+
+.account-details{
+  display: flex; 
+  flex-direction: row; 
+  flex-wrap: wrap; 
+  justify-content: flex-start; 
+}
+
+.account-input{
+  margin: 0 5vh 5vh 5vh; 
+  width: 50vh; 
+}
+
+.button-input{
+  width: 50vh; 
+  margin: 10vh 0 0 3vh; 
+}
+
+.account-input .password-button{
   margin-top: 5vh; 
 }

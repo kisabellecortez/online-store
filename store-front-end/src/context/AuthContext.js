@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
 import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
-import { doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, setDoc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
 
 const AuthContext = createContext()
@@ -37,6 +37,7 @@ export const AuthContextProvider = ({ children })=> {
         })
     }
 
+    /* Log Out */
     const logOut =()=>{
         return signOut(auth)
     }
@@ -80,6 +81,42 @@ export const AuthContextProvider = ({ children })=> {
             properties: [type, material, stone], 
             image: id
         });
+    }
+
+    const getUserFirstName = async(uid) => {
+        try{
+            const userRef = doc(db, 'users', uid);
+            const userSnap = await getDoc(userRef);
+
+            if(userSnap.exists()){
+                return userSnap.data().first_name
+            }
+            else{
+                console.log('User does not exist.')
+                return null
+            }
+        }
+        catch(error){
+            console.log('Error getting user: ', error)
+        }
+    }
+
+    const getUserLastName = async(uid) => {
+        try{
+            const userRef = doc(db, 'users', uid);
+            const userSnap = await getDoc(userRef);
+
+            if(userSnap.exists()){
+                return userSnap.data().last_name
+            }
+            else{
+                console.log('User does not exist.')
+                return null
+            }
+        }
+        catch(error){
+            console.log('Error getting user: ', error)
+        }
     }
 
     /* edit product in database */
@@ -135,7 +172,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, setDispName, delUser, createUser, user, updatePass, updateEmail }}>
+        <AuthContext.Provider value = {{ getUserFirstName, getUserLastName, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, setDispName, delUser, createUser, user, updatePass, updateEmail }}>
             { children }
         </AuthContext.Provider>
     );

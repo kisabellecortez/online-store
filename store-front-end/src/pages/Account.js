@@ -21,12 +21,20 @@ export default function Account() {
     const [email, setEmail] = useState('');
     const [activePage, setActivePage] = useState('accountDetails');
 
-    const { updateName, logOut, updEmail, updatePass, deleteUser, getUserFirstName, getUserLastName } = UserAuth();
+export default function Account(){
+    const navigate = useNavigate()
+    const [currUser, setCurrUser] = useState('')
+    const [name, setName] = useState('')
 
-    useEffect(() => {
-        const initializeUser = async () => {
-            const auth = getAuth();
-            const user = auth.currentUser;
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [passVisib, setPassVisib] = useState(false)
+    const [password, setPassword] = useState('')
+
+    const [activePage, setActivePage] = useState('accountDetails')
+
+    const { setDispName, updateEmail, updatePass, deleteUser, getUserFirstName, getUserLastName } = UserAuth(); // AuthContext functions using Firebase
 
             if (!user) {
                 navigate('/signin');
@@ -36,32 +44,61 @@ export default function Account() {
             setCurrUser(user);
             setEmail(user.email);
 
-            const first = await getUserFirstName(user.uid);
-            const last = await getUserLastName(user.uid);
-            setFirstName(first || '');
-            setLastName(last || '');
-        };
+        if(user){
+            setCurrUser(user)
+            setEmail(user.email)
+            setPassword(user.password)
+        }
+        else{
+            navigate('/signin')
+        }
+    }
 
-        initializeUser();
-    }, []);
+    useEffect(()=>{
+        checkUser()
 
-    const handleLogOut = async () => {
-        await logOut();
-        navigate('/home');
-    };
+        const fetchFirstName = async() => {
+            if(currUser?.uid){
+                const firstName = await getUserFirstName(currUser.uid)
+                setFirstName(firstName)
+            }
+        }
 
-    const handleDelUser = async () => {
-        await deleteUser();
-        alert("Your account was successfully deleted.");
-        navigate('/home');
-    };
+        const fetchLastName = async() => {
+            if(currUser?.uid){
+                const lastName = await getUserLastName(currUser.uid)
+                setLastName(lastName)
+            }
+        }
 
-    return (
-        <div>
-            <Sidebar />
-            <TopNav />
+        fetchFirstName()
+        fetchLastName()
+    }, [currUser])
 
-            <div className="account-page">
+    /* sends password reset email */
+    const handleChangePass = async() => {
+        await updatePass(currUser.email)
+        alert("A password change email was send to " + currUser.email + "!")
+    }
+
+    /* delete user */
+    const handleDelUser = async() => {
+        await deleteUser(); 
+        alert("Your account was successfully deleted.")
+        navigate('/home')
+    }
+
+    const handleChanges = async() => {
+        await updateEmail(email)
+    }
+
+  return(
+    <div>
+        <Sidebar/>
+        <TopNav/>
+
+        <div className="account-page">
+
                 <div className="account-title">
                     <h1>Welcome Back, {firstName}!</h1>
                 </div>
@@ -146,6 +183,67 @@ export default function Account() {
                         </div>
                     )}
                 </div>
+
+                {activePage === 'accountDetails' && (
+                    <div className="account-sub-page">
+                        <div className="account-details">
+                            <div className="account-input">
+                                <TextField
+                                    className="account-input"
+                                    label="First Name"
+                                    variant="outlined"
+                                    value={firstName}
+                                    onChange={e => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div className="account-input">
+                                <TextField
+                                    className="account-input"
+                                    label="Last Name"
+                                    variant="outlined"
+                                    value={lastName}
+                                    onChange={e => setLastName(e.target.value)}
+                                />
+                            </div>
+                            <div className="account-input">
+                                <TextField
+                                    className="account-input"
+                                    label="Email"
+                                    variant="outlined"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="account-input">
+                            <Button className="account-button" onClick={() => handleChanges()}>
+                                <p>Save Changes</p>
+                            </Button>
+                        </div>
+
+                        <div className="account-input">
+                            <Button className="password-button" onClick={() => handleDelUser()}>
+                                <p>Send Password Reset Email</p>
+                            </Button>
+                        </div> 
+
+                        <div className="button-input">
+                            <Button className="delete-button" onClick={() => handleDelUser()}>
+                                <p>Delete Account</p>
+                            </Button>
+                        </div>  
+                    </div>
+                )}
+
+                {activePage === 'orders' && (
+                    <div className="account-sub-page">
+                        <div className="order-card">
+                            <p>hello cat</p>
+                        </div>
+                    </div>
+                )}
+
             </div>
 
             <EndBanner />
