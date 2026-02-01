@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express(); 
 const port = process.env.PORT || 4242; 
 
-const stripe = new Stripe(process.env.STRIPE_SK);   
+const stripe = new Stripe('sk_test_51PWVI5FogC5eZOt1cOpRBgyabvgoABykIe6Hg5C9IJg9SRCDap1thPdRpiTzJ2atspDcnOQnuRumBhsd0LLf5rJ200bU8Y9HU9');   
 
 app.use(cors({
     origin: 'http://localhost:3000'

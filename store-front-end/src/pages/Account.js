@@ -103,6 +103,7 @@ export default function Account(){
                                         variant="outlined"
                                         value={firstName}
                                         onChange={e => setFirstName(e.target.value)}
+                                        sx={{ width: '400px' }}
                                     />
                                 </div>
                                 <div className="account-input">
@@ -111,6 +112,7 @@ export default function Account(){
                                         variant="outlined"
                                         value={lastName}
                                         onChange={e => setLastName(e.target.value)}
+                                        sx={{ width: '400px' }}
                                     />
                                 </div>
                                 <div className="account-input">
@@ -119,24 +121,21 @@ export default function Account(){
                                         variant="outlined"
                                         value={email}
                                         disabled
+                                        sx={{ width: '400px' }}
                                     />
                                 </div>
                             </div>
-
-                            <div className="account-input">
-                                <Button className="account-button" onClick={() => updateName(firstName, lastName)}>
+                            
+                            <div className="account-buttons">
+                                <Button variant="contained" className="input-button" onClick={() => updateName(firstName, lastName)}>
                                     <p>Save Changes</p>
                                 </Button>
-                            </div>
-
-                            <div className="account-input">
-                                <Button className="password-button" onClick={() => updatePass(currUser.email)}>
+                
+                                <Button variant="contained" className="password-button" onClick={() => updatePass(currUser.email)}>
                                     <p>Send Password Reset Email</p>
                                 </Button>
-                            </div>
 
-                            <div className="button-input">
-                                <Button className="delete-button" onClick={handleDelUser}>
+                                <Button variant="contained" className="delete-button" onClick={handleDelUser}>
                                     <p>Delete Account</p>
                                 </Button>
                             </div>
@@ -151,67 +150,6 @@ export default function Account(){
                         </div>
                     )}
                 </div>
-
-                {activePage === 'accountDetails' && (
-                    <div className="account-sub-page">
-                        <div className="account-details">
-                            <div className="account-input">
-                                <TextField
-                                    className="account-input"
-                                    label="First Name"
-                                    variant="outlined"
-                                    value={firstName}
-                                    onChange={e => setFirstName(e.target.value)}
-                                />
-                            </div>
-                            <div className="account-input">
-                                <TextField
-                                    className="account-input"
-                                    label="Last Name"
-                                    variant="outlined"
-                                    value={lastName}
-                                    onChange={e => setLastName(e.target.value)}
-                                />
-                            </div>
-                            <div className="account-input">
-                                <TextField
-                                    className="account-input"
-                                    label="Email"
-                                    variant="outlined"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    disabled
-                                />
-                            </div>
-                        </div>
-
-                        <div className="account-input">
-                            <Button className="account-button" onClick={() => updateName(firstName, lastName)}>
-                                <p>Save Changes</p>
-                            </Button>
-                        </div>
-
-                        <div className="account-input" onClick={() => updatePass(currUser.email)}>
-                            <Button className="password-button">
-                                <p>Send Password Reset Email</p>
-                            </Button>
-                        </div> 
-
-                        <div className="button-input">
-                            <Button className="delete-button" onClick={() => handleDelUser()}>
-                                <p>Delete Account</p>
-                            </Button>
-                        </div>  
-                    </div>
-                )}
-
-                {activePage === 'orders' && (
-                    <div className="account-sub-page">
-                        <div className="order-card">
-                            <p>hello cat</p>
-                        </div>
-                    </div>
-                )}
 
             </div>
 
